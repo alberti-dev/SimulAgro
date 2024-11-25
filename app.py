@@ -20,8 +20,12 @@ import plotly.graph_objects as go  # Per grafici avanzati
 import dataprediction # Per il calcolo della produzione futura
 
 # Caricamento dati iniziali (ambientali e di produzione)
-data_env = pd.read_csv("data_env.csv")
-data_prod = pd.read_csv("data_prod.csv")
+#data_env = pd.read_csv("data_env.csv")
+#data_prod = pd.read_csv("data_prod.csv")
+from pathlib import Path
+curr_folder = Path(__file__).parent.resolve()
+data_env = pd.read_csv(curr_folder/"data_env.csv")
+data_prod = pd.read_csv(curr_folder/"data_prod.csv")
 
 # Creazione dei DataFrame
 df_env = pd.DataFrame(data_env) # Dati ambientali
