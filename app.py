@@ -153,7 +153,7 @@ app.layout = html.Div(children=[
             # Grafico
             dcc.Graph(id='fig_env', figure=create_fig_env(df_env)),
             # Tabella dati
-            dash_table.DataTable(id='env-table', columns=[{"name": col_mapping[col], "id": col} for col in df_env.columns], data=df_env.to_dict('records'), sort_action='native', sort_by=[{'column_id': 'Year', 'direction': 'desc'}])
+            dash_table.DataTable(id='env-table', columns=[{"name": col_mapping[col], "id": col} for col in df_env.columns], data=df_env.to_dict('records'), sort_action='native', sort_by=[{'column_id': 'Year', 'direction': 'desc'}], style_table={'overflowX': 'auto'})
         ], className="my-4"),
 
         # Sezione per i dati di produzione
@@ -163,7 +163,7 @@ app.layout = html.Div(children=[
             # Grafico
             dcc.Graph(id='fig_prod', figure=create_fig_prod(df_prod)),
             # Tabella dati
-            dash_table.DataTable(id='production-table', columns=[{"name": col_mapping[col], "id": col} for col in df_prod.columns], data=df_prod.to_dict('records'), sort_action='native', sort_by=[{'column_id': 'Year', 'direction': 'desc'}])
+            dash_table.DataTable(id='production-table', columns=[{"name": col_mapping[col], "id": col} for col in df_prod.columns], data=df_prod.to_dict('records'), sort_action='native', sort_by=[{'column_id': 'Year', 'direction': 'desc'}], style_table={'overflowX': 'auto'})
         ], className="my-4"),
 
         # Sezione per i dati di performance
@@ -177,7 +177,7 @@ app.layout = html.Div(children=[
         # Sezione che ospita la tabella dei dati performance
         html.Div(children=[
             html.H2("", className="my-4"),
-            dash_table.DataTable(id='performance-table', columns=[{"name": col_mapping[col], "id": col} for col in df_perf.columns], data=df_perf.to_dict('records'), sort_action='native', sort_by=[{'column_id': 'Year', 'direction': 'desc'}])
+            dash_table.DataTable(id='performance-table', columns=[{"name": col_mapping[col], "id": col} for col in df_perf.columns], data=df_perf.to_dict('records'), sort_action='native', sort_by=[{'column_id': 'Year', 'direction': 'desc'}], style_table={'overflowX': 'auto'})
         ], className="my-4"),
 
         # Sezione per i dati previsionali
@@ -216,7 +216,8 @@ app.layout = html.Div(children=[
                 ],
                 data=[],
                 sort_action='native',
-                sort_by=[{'column_id': 'Year', 'direction': 'desc'}]
+                sort_by=[{'column_id': 'Year', 'direction': 'desc'}],
+                style_table={'overflowX': 'auto'}
             )
         ], className="my-4"),
 
