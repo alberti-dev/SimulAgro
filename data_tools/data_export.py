@@ -47,8 +47,8 @@ def save_to_excel(env_data, prod_data, perf_data):
     output.seek(0) # Riporta il puntatore all'inizio del buffer
     return dcc.send_bytes(output.getvalue(), "dati_completi.xlsx") # Restituisce il buffer come file Excel
 
-# Formatta i dati di una tabella:
-# - La colonna 'Year' senza virgole
+# Funzione che formatta i dati di una tabella:
+# - La colonna 'Year' senza decimali
 # - Tutte le altre colonne con 3 decimali
 def format_table_data(df):
     formatted_df = df.copy()
@@ -60,7 +60,7 @@ def format_table_data(df):
     return formatted_df
 
 # Funzione che inserisce una sezione nel report PDF
-def add_section(pdf, width, height, y_position, title, graph, table_data, is_last_section=False):
+def add_section(pdf, width, height, y_position, title, graph, table_data, last_section=False):
     # Aggiungi il titolo della sezione
     pdf.setFont("Helvetica-Bold", 12)
     pdf.drawString(50, y_position, title)
@@ -81,14 +81,14 @@ def add_section(pdf, width, height, y_position, title, graph, table_data, is_las
         custom_width = width - 100  # Larghezza desiderata (tenendo conto dei margini)
         custom_height = custom_width * aspect_ratio  # Altezza proporzionale
 
-        # Se l'altezza supera la pagina, riduciamo la larghezza
+        # Se l'altezza supera la pagina, riduci la larghezza in proporzione
         if custom_height > height - 200: # height - 200 è l'altezza disponibile
             custom_height = height - 200
             custom_width = custom_height / aspect_ratio
 
         # Inserisci il grafico nel PDF
         pdf.drawImage(img_reader, 50, y_position - custom_height, custom_width, custom_height)
-        y_position -= custom_height + 10  # Spazio dopo il grafico
+        y_position -= custom_height + 10  # Aggiungi uno spazio dopo il grafico
 
     # Aggiungi la tabella con le etichette
     if table_data is not None:
@@ -101,14 +101,14 @@ def add_section(pdf, width, height, y_position, title, graph, table_data, is_las
         table = Table(table_data_with_labels, colWidths=[(width - 100) / len(table_data[0])] * len(table_data[0]))
         table.setStyle(table_style)  # Usa la variabile table_style definita all'inizio del modulo per stilizzare la tabella
         table.wrapOn(pdf, width - 100, y_position)
-        if not is_last_section: # Se non è l'ultima sezione del report, disegna la tabella in una posizione prefissata
+        if not last_section: # Se non è l'ultima sezione del report, disegna la tabella in una posizione prefissata
             table.drawOn(pdf, 50, y_position - 140)
         else:
             table.drawOn(pdf, 50, y_position - 50) # Nell'ultima sezione del report, la tabella (di una sola riga) va avvicinata al grafico
         y_position -= 200  # Diminuisci la posizione per il contenuto successivo
 
-    # Aggiungi interruzione di pagina, se necessario
-    if not is_last_section:
+    # Se non è l'ultima sezione del report, imposta una interruzione di pagina
+    if not last_section:
         pdf.showPage()
         y_position = height - 100
 
@@ -120,7 +120,7 @@ def create_pdf_report(graphs, tables):
     pdf = canvas.Canvas(buffer, pagesize=A4) # Crea un oggetto Canvas per generare il PDF
     width, height = A4 # Imposta le dimensioni della pagina
 
-    # Data e ora correnti
+    # Data e ora di creazione del report
     current_datetime = datetime.now()
     date_str = current_datetime.strftime("%d/%m/%Y")  # Data nel formato gg/mm/aaaa
     time_str = current_datetime.strftime("%H:%M")  # Ora nel formato hh:mm
@@ -168,12 +168,12 @@ def create_pdf_report(graphs, tables):
     pdf.setFont("Helvetica", 10)
     pdf.drawString((width - datetime_width) / 2, vertical_center - 60, datetime_text)
 
-    # Linea sotto il testo
+    # Disegna una linea sotto il testo
     pdf.line(50, vertical_center - 80, width - 50, vertical_center - 80)
 
-    # Passa alla pagina successiva per il contenuto
+    # Passa alla pagina successiva
     pdf.showPage()
-    y_position = height - 100  # Posizione iniziale per il contenuto
+    y_position = height - 100  # Posizione iniziale del contenuto
 
     # **Sezione 1: Dati Ambientali**
     y_position = add_section(pdf, width, height, y_position, "Dati Ambientali", \
@@ -184,14 +184,14 @@ def create_pdf_report(graphs, tables):
                              graphs[1], [list(tables[1].columns)] + tables[1].values.tolist())
 
     # **Sezione 3: Dati di Performance (con due grafici affiancati)**
-    y_position = height - 100  # Reset y_position per la nuova pagina
+    y_position = height - 100  # Imposta y_position per la nuova pagina
     pdf.setFont("Helvetica-Bold", 12)
     pdf.drawString(50, y_position, "Dati di Performance")
 
     # Aggiungi uno spazio extra dopo il titolo della sezione
     y_position -= 10  # Distanza extra tra il titolo e i grafici
 
-    if graphs[2] and graphs[3]:
+    if graphs[2] and graphs[3]: # Se i grafici sono quelli di performance
         img_buffer1 = io.BytesIO()
         pio.write_image(graphs[2], img_buffer1, format="png")
         img_buffer1.seek(0)
@@ -209,13 +209,13 @@ def create_pdf_report(graphs, tables):
         aspect_ratio1 = img_height1 / img_width1
         aspect_ratio2 = img_height2 / img_width2
 
-        # Ridurre la larghezza per affiancare i due grafici
+        # Riduci la larghezza per affiancare i due grafici
         custom_width = (width - 100) / 2
-        # Ridimensionare l'altezza
+        # Ridimensiona l'altezza
         custom_height1 = custom_width * aspect_ratio1 
         custom_height2 = custom_width * aspect_ratio2
 
-        # Se l'altezza totale supera la pagina, ridurre l'altezza dei grafici
+        # Se l'altezza totale supera quella della pagina, riduci l'altezza dei grafici
         max_height = height - 200
         if custom_height1 + custom_height2 > max_height:
             scale_factor = max_height / (custom_height1 + custom_height2)
@@ -226,7 +226,7 @@ def create_pdf_report(graphs, tables):
         pdf.drawImage(img_reader1, 50, y_position - custom_height1, custom_width, custom_height1)
         pdf.drawImage(img_reader2, 50 + custom_width + 10, y_position - custom_height2, custom_width, custom_height2)
 
-        # Aggiungi uno spazio dopo i grafici
+        # Aggiungi dello spazio dopo i grafici
         #y_position -= max(custom_height1, custom_height2) + 20
         y_position -= 160
 
@@ -241,14 +241,14 @@ def create_pdf_report(graphs, tables):
         y_position -= 200
 
     # **Sezione 4: Grafico Previsionale (su nuova pagina)**
-    pdf.showPage()  # Creazione nuova pagina
-    y_position = height - 100  # Reset del valore y_position per la nuova pagina
+    pdf.showPage()  # Crea nuova pagina
+    y_position = height - 100  # Imposta y_position per la nuova pagina
     y_position = add_section(pdf, width, height, y_position, "Dati di Previsionali", graphs[4], [list(tables[3].columns)] \
                              + tables[3].values.tolist())
 
     # **Sezione 5: Dati di Previsione anno prossimo**
     y_position = add_section(pdf, width, height, y_position, "Dati di Previsione anno prossimo", graphs[5], [list(tables[4].columns)] \
-                             + tables[4].values.tolist(), is_last_section=True)
+                             + tables[4].values.tolist(), last_section=True)
 
     # Salva il PDF
     pdf.save()
