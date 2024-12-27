@@ -7,7 +7,7 @@
 #   della pagina
 # - generate_custom_data(params): richiamata dalla callback che gestisce gli slider ambientali, calcola i dati futuri in funzione 
 #   del valore di questi ultimi
-# - predict_future_production(params): genera i dati previsionali ambientali e di produzione. E' richiamata dalle callback del pulsante
+# - calc_future_production(params): genera i dati previsionali ambientali e di produzione. E' richiamata dalle callback del pulsante
 #   btn-random e del caricamento della pagina
 
 # Importazione delle librerie necessarie
@@ -16,7 +16,7 @@ import pandas as pd # per la gestione e la manipolazione dei dati in formato tab
 import numpy as np # per la generazione di numeri casuali e le operazioni sugli array
 from interface import labels # per importare le etichette di intestazione tabelle
 from sklearn.linear_model import LinearRegression  # per creare modelli di regressione lineare
-from data_tools.data_simulator import calc_prod_indicators, calc_perf_indicators # per calcolare i dati di produzione e performance
+from data_tools.data_simulator import calc_production, calc_performance # per calcolare i dati di produzione e performance
 
 # Funzione che carica i dati iniziali (ambientali e di produzione) da due file .csv
 def load_initial_data():
@@ -35,8 +35,8 @@ def load_initial_data():
     # Popolamento dei DataFrame (vengono generati anche i dati "futuri")
     df_env = pd.DataFrame(data_env)
     df_prod = pd.DataFrame(data_prod)	
-    df_perf = calc_perf_indicators(df_prod, df_env)
-    df_future = predict_future_production(df_env, df_prod)
+    df_perf = calc_performance(df_prod, df_env)
+    df_future = calc_future_production(df_env, df_prod)
 	
 	# Importazione del dizionario per la traduzione delle intestazioni di colonna delle 
     # tabelle visualizzate sotto i grafici
@@ -52,7 +52,7 @@ def generate_custom_data(mynew_env):
     # Precipitazioni da cm a mm per i calcoli
     df_env['Precipitation'] = df_env['Precipitation'] * 10
     # Calcolo dei dati di produzione basati sui dati ambientali
-    growth_days, total_yield, water_consumption, fertilizer_consumption = calc_prod_indicators(df_env)
+    growth_days, total_yield, water_consumption, fertilizer_consumption = calc_production(df_env)
 	
     # Raccolta dei dati di produzione in un DataFrame
     df_prod = pd.DataFrame({
@@ -72,7 +72,7 @@ def generate_custom_data(mynew_env):
 
 # Funzione che genera i dati previsionali ambientali e di produzione
 # instability_factor (float): controlla l'intensità del "rumore" (default 0.1, corrisponde al 10% di deviazione rispetto al valore previsto)
-def predict_future_production(df_env, df_prod, instability_factor=0.1):
+def calc_future_production(df_env, df_prod, instability_factor=0.1):
     ### Preprocessing dei dati
     # Selezione dei dati ambientali come variabili indipendenti
     X = df_env[['Year']].values

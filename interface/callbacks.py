@@ -6,7 +6,7 @@
 # Importazione delle librerie necessarie
 import pandas as pd # per la manipolazione e all'analisi dei dati
 from dash import Input, Output, State, callback_context, dcc # per la gestione delle callback
-from data_tools.data import generate_custom_data, load_initial_data, predict_future_production # per la gestione dei dati (iniziali, custom e futuri)
+from data_tools.data import generate_custom_data, load_initial_data, calc_future_production # per la gestione dei dati (iniziali, custom e futuri)
 from data_tools.data_simulator import  generate_random_data # per la generazione di dati casuali
 from data_tools.data_export import save_to_excel, create_pdf_report, format_table_data # per l'esportazione dei dati
 from interface.charts import create_fig_env, create_fig_prod, create_fig_perf, create_fig_future, create_fig_nextyear # per la creazione dei grafici
@@ -94,7 +94,7 @@ def register_callbacks(app):
             new_df_prod = df_prod  # Ottieni i nuovi dati di produzione
 
             # Calcoliamo i nuovi dati futuri
-            df_future = predict_future_production(new_df_env, new_df_prod)
+            df_future = calc_future_production(new_df_env, new_df_prod)
 
             # Memorizziamo i nuovi dati futuri nel componente `dcc.Store`
             stored_data = df_future.to_dict('records')
@@ -106,7 +106,7 @@ def register_callbacks(app):
             new_df_prod = df_prod  # Ottieni i nuovi dati di produzione
 
             # Calcoliamo i nuovi dati futuri
-            df_future = predict_future_production(new_df_env, new_df_prod)
+            df_future = calc_future_production(new_df_env, new_df_prod)
 
             # Memorizziamo i nuovi dati futuri nel componente `dcc.Store`
             stored_data = df_future.to_dict('records')

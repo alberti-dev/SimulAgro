@@ -12,7 +12,7 @@
 #   che gestisce il pulsante btn--generate-report
 
 # Importazione delle librerie necessarie
-import io # per la gestione dei flussi di I/O (ad esempio gestione dei file in memoria)
+import os, io # per la gestione dei flussi di I/O (ad esempio gestione dei file in memoria)
 import plotly.io as pio # per la gestione di I/O grafici (ad esempio salvare i grafici come immagini)
 import pandas as pd # per la gestione dei DataFrame
 from datetime import datetime # per gestire date ed orari
@@ -139,7 +139,7 @@ def create_pdf_report(graphs, tables):
     datetime_width = pdf.stringWidth(datetime_text, "Helvetica", 10)
 
     # Carica il logo
-    logo_path = "assets/logo300x300.jpg"
+    logo_path = os.path.join(os.getcwd(), "assets", "logo300x300.jpg")
     img_reader = ImageReader(logo_path)
     img_width, img_height = img_reader.getSize()
 

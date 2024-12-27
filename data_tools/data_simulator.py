@@ -4,9 +4,9 @@
 # Contiene le funzioni:
 # - generate_random_data: genera dati casuali ambientali, di produzione e di performance. E' richiamata dalle callbacks
 #   al caricamento dell'app e all'azione sul pulsante btn-random
-# - calc_prod_indicators: calcola gli indicatori di produzione basandosi sui dati ambientali. E' richiamata dalla
+# - calc_production: calcola gli indicatori di produzione basandosi sui dati ambientali. E' richiamata dalla
 #   funzione generate_custom_data(params) del modulo data_tools.data.py
-# - calc_perf_indicators: calcola gli indicatori di performance economica basandosi sui dati di produzione ed ambientali.
+# - calc_performance: calcola gli indicatori di performance economica basandosi sui dati di produzione ed ambientali.
 #   E' richiamata dalla funzione load_initial_data() del modulo data_tools.data.py
 # - yield_simulate: simula la resa della coltivazione in funzione dei parametri ambientali. E' una funzione interna
 #   di questo modulo ed è richiamata dalla funzione generate_random_data
@@ -44,7 +44,7 @@ def generate_random_data():
     })
 	
     # Calcolo dei dati di produzione basati sui dati ambientali generati randomicamente
-    growth_days, total_yield, water_consumption, fertilizer_consumption = calc_prod_indicators(df_env)
+    growth_days, total_yield, water_consumption, fertilizer_consumption = calc_production(df_env)
 
     # Raccolta dei dati di produzione in un DataFrame
     df_prod = pd.DataFrame({
@@ -56,13 +56,13 @@ def generate_random_data():
     })    
 
     # Calcolo dei dati di performance basati sui dati ambientali e di produzione generati randomicamente
-    df_perf = calc_perf_indicators(df_prod, df_env)
+    df_perf = calc_performance(df_prod, df_env)
 
     # I DataFrame vengono restituiti
     return df_env, df_prod, df_perf.round(3)
 
 # Funzione che calcola gli indicatori di produzione in funzione dei dati ambientali
-def calc_prod_indicators(df_env):
+def calc_production(df_env):
     # Giorni di crescita (tipicamente tra 180 e 210 giorni per le olive)
     growth_days = np.random.normal(growth_average, 10, len(df_env))
     # Percentuale di scarto nella raccolta, che può essere tra il 2% e il 10%
@@ -81,7 +81,7 @@ def calc_prod_indicators(df_env):
     return growth_days, total_yield, water_consumption, fertilizer_consumption
 
 # Funzione che calcola gli indicatori di performance economica basandosi sui dati di produzione ed ambientali
-def calc_perf_indicators(df_prod, df_env):
+def calc_performance(df_prod, df_env):
     # Creazione di un DataFrame per gli indicatori
     df_perf = pd.DataFrame(index=df_env.index)
     
