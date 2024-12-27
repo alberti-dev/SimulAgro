@@ -78,17 +78,17 @@ def add_section(pdf, width, height, y_position, title, graph, table_data, is_las
         # Calcola le proporzioni
         aspect_ratio = img_height / img_width
         # Adatta il grafico alla larghezza della pagina, mantenendo le proporzioni
-        desired_width = width - 100  # Larghezza desiderata (tenendo conto dei margini)
-        desired_height = desired_width * aspect_ratio  # Altezza proporzionale
+        custom_width = width - 100  # Larghezza desiderata (tenendo conto dei margini)
+        custom_height = custom_width * aspect_ratio  # Altezza proporzionale
 
         # Se l'altezza supera la pagina, riduciamo la larghezza
-        if desired_height > height - 200: # height - 200 è l'altezza disponibile
-            desired_height = height - 200
-            desired_width = desired_height / aspect_ratio
+        if custom_height > height - 200: # height - 200 è l'altezza disponibile
+            custom_height = height - 200
+            custom_width = custom_height / aspect_ratio
 
         # Inserisci il grafico nel PDF
-        pdf.drawImage(img_reader, 50, y_position - desired_height, desired_width, desired_height)
-        y_position -= desired_height + 10  # Spazio dopo il grafico
+        pdf.drawImage(img_reader, 50, y_position - custom_height, custom_width, custom_height)
+        y_position -= custom_height + 10  # Spazio dopo il grafico
 
     # Aggiungi la tabella con le etichette
     if table_data is not None:
@@ -144,15 +144,15 @@ def create_pdf_report(graphs, tables):
     img_width, img_height = img_reader.getSize()
 
     # Dimensioni e posizione del logo
-    desired_width = 160
+    custom_width = 160
     aspect_ratio = img_height / img_width
-    desired_height = desired_width * aspect_ratio
+    custom_height = custom_width * aspect_ratio
 
-    logo_x = (width - desired_width) / 2
+    logo_x = (width - custom_width) / 2
     logo_y = height / 2 + 80  # Posiziona sopra il titolo
 
     # Disegna il logo
-    pdf.drawImage(img_reader, logo_x, logo_y, desired_width, desired_height)
+    pdf.drawImage(img_reader, logo_x, logo_y, custom_width, custom_height)
 
     # Calcola la posizione verticale centrata
     total_text_height = 18 + 14 + 10 + 20  # Altezza cumulativa dei testi con spaziatura
@@ -210,24 +210,24 @@ def create_pdf_report(graphs, tables):
         aspect_ratio2 = img_height2 / img_width2
 
         # Ridurre la larghezza per affiancare i due grafici
-        desired_width = (width - 100) / 2
+        custom_width = (width - 100) / 2
         # Ridimensionare l'altezza
-        desired_height1 = desired_width * aspect_ratio1 
-        desired_height2 = desired_width * aspect_ratio2
+        custom_height1 = custom_width * aspect_ratio1 
+        custom_height2 = custom_width * aspect_ratio2
 
         # Se l'altezza totale supera la pagina, ridurre l'altezza dei grafici
         max_height = height - 200
-        if desired_height1 + desired_height2 > max_height:
-            scale_factor = max_height / (desired_height1 + desired_height2)
-            desired_height1 *= scale_factor
-            desired_height2 *= scale_factor
+        if custom_height1 + custom_height2 > max_height:
+            scale_factor = max_height / (custom_height1 + custom_height2)
+            custom_height1 *= scale_factor
+            custom_height2 *= scale_factor
 
         # Inserisci i due grafici affiancati
-        pdf.drawImage(img_reader1, 50, y_position - desired_height1, desired_width, desired_height1)
-        pdf.drawImage(img_reader2, 50 + desired_width + 10, y_position - desired_height2, desired_width, desired_height2)
+        pdf.drawImage(img_reader1, 50, y_position - custom_height1, custom_width, custom_height1)
+        pdf.drawImage(img_reader2, 50 + custom_width + 10, y_position - custom_height2, custom_width, custom_height2)
 
         # Aggiungi uno spazio dopo i grafici
-        #y_position -= max(desired_height1, desired_height2) + 20
+        #y_position -= max(custom_height1, custom_height2) + 20
         y_position -= 160
 
     # Aggiungi la tabella dei dati di performance
