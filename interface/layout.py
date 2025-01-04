@@ -14,12 +14,12 @@ from dash import dcc, html, dash_table
 # Libreria Dash Bootstrap Components che consente di utilizzare componenti 
 # pre-stilizzati quali pulsanti, card, etc.
 import dash_bootstrap_components as dbc
-# Funzioni personalizzate dalla directory "data_tools":
+# Funzioni personalizzate dal package "data_tools":
 from data_tools.data import load_initial_data # per caricare e pre-elaborare i dati iniziali richiesti dall'app
 from interface.charts import create_fig_env, create_fig_prod # per creare i grafici relativi ai dati ambientali e di produzione
 
 # Caricamento dati iniziali
-# Unpacking della funzione load_initial_data del modulo data_tools.data:
+# Unpacking della funzione load_initial_data del modulo data.py del package data_tools:
 # gli elementi restituiti vengono assegnati a delle variabili che popoleranno i grafici creati in seguito
 df_env, df_prod, df_perf, df_future, col_mapping = load_initial_data()
 

@@ -4,8 +4,8 @@
 # le legende dei grafici.
 # Contiene i dizionari che mappano i nomi delle colonne dei DataFrame dall'inglese all'italiano
 
-# Dizionario importato sia nel modulo layouts.layout (per tradurre le intestazioni di colonna delle
-# tabelle visualizzate sotto ai grafici) che nel modulo layouts.charts (per tradurre le legende dei grafici)
+# Dizionario importato sia nel modulo layout.py (per tradurre le intestazioni di colonna delle
+# tabelle visualizzate sotto ai grafici) che nel modulo charts.py (per tradurre le legende dei grafici)
 col_mapping = {
     "Year": "Anno", 
     "Temperature": "Temperatura (°C)", 
@@ -23,8 +23,8 @@ col_mapping = {
     "Profit_Margin": "Margine di Profitto (%)"
 }
 
-# Dizionario è importato nel modulo data_tools.data_export.py (per tradurre le intestazioni di colonna delle
-# tabelle visualizzate sotto ai grafici nel report PDF)
+# Dizionario è importato nel modulo data_export.py del package data_tools (per tradurre le intestazioni
+# di colonna delle tabelle visualizzate sotto ai grafici nel report PDF)
 col_mapping_pdf = {
     "Year": "Anno", 
     "Temperature": "Temp. (°C)", 

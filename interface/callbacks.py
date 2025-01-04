@@ -185,7 +185,7 @@ def register_callbacks(app):
 
     # Callback che, alla pressione sul pulsante di generazione report, recupera i dati relativi
     # ai grafici e alle tabelle visualizzate in quel momento sulla dashboard e li passa alla
-    # funzione create_pdf_report del modulo data_tools.data_export.py per la generazione del PDF
+    # funzione create_pdf_report del modulo data_export.py del package data_tools per la generazione del PDF
     @app.callback(
         Output('download-report', 'data'),
         Input('btn-generate-report', 'n_clicks'),

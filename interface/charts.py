@@ -2,7 +2,7 @@
 
 # Modulo che definisce le funzioni di creazione dei grafici
 # Ogni funzione accetta come input un DataFrame e restituisce uno o più grafici (e relative tabelle) basandosi su di esso
-# Le funzioni vengono richiamate dal modulo layouts.layout per "disegnare" i grafici all'interno della dashboard
+# Le funzioni vengono richiamate dal modulo layout.py per "disegnare" i grafici all'interno della dashboard
 
 # Importazione delle librerie necessarie
 import plotly.express as px # modulo per creare grafici interattivi
@@ -50,7 +50,7 @@ def create_fig_prod(df_prod):
                  # Impostazione titolo e scelta del tema grafico
                  title='Confronto fra indicatori per anno', template="plotly_dark")
     # Aggiorna i nomi delle tracce in base al mapping predefinito nel dizionario col_mapping 
-    # importato dal modulo layouts.labels
+    # importato dal modulo labels.py
     fig.for_each_trace(lambda trace: trace.update(name=col_mapping.get(trace.name, trace.name)))
     # Modifica della legenda per renderla orizzontale
     # Modifica della legenda per renderla orizzontale e su una sola riga
@@ -129,7 +129,7 @@ def create_fig_nextyear(df_future, temperature, humidity, precipitation):
         title=f"Dati dell'Anno {min_year}",
         template="plotly_dark"
     )
-    # Aggiorna i nomi delle tracce in base al mapping predefinito nel dizionario col_mapping importato dal modulo layouts.labels
+    # Aggiorna i nomi delle tracce in base al mapping predefinito nel dizionario col_mapping importato dal modulo labels.py
     fig.for_each_trace(lambda trace: trace.update(name=col_mapping.get(trace.name, trace.name)))
     
     # Restituisce il grafico e i dati per la tabella
