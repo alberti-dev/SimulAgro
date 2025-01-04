@@ -6,13 +6,11 @@ Foglio di stile che regola la visualizzazione di vari componenti della dashboard
 
 /* Stile per l'intestazione */
 header {
-    /*background: #f8f9fa; /* Colore chiaro e neutro */
-    background: transparent !important;
+    background: transparent !important; /* Sfondo trasparente */
     color: #343a40; /* Testo grigio scuro */
     padding: 10px 20px; /* Spaziatura compatta */
     border-bottom: 2px solid #17a2b8; /* Linea inferiore di colore aziendale */
     margin-bottom: 20px; /* Spazio tra header e contenuto */
-    /*box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Leggera ombra */
 }
 
 /* Titolo principale */
@@ -56,14 +54,13 @@ header h2 {
 
 /* Stile per il Footer */
 footer {
-    border-top: 2px solid #17a2b8; /* Linea inferiore di colore aziendale */
+    border-top: 2px solid #17a2b8; /* Linea che delimita la sezione */
 }
 
 footer.bg-light {
     background-color: transparent !important;
     color: #333; /* Colore del testo scuro */
     text-align: center;
-    /*padding: 20px 0;*/
     position: relative;
     bottom: 0;
     width: 100%;
@@ -74,18 +71,7 @@ footer.bg-light p {
     margin: 0;  /* Rimuove margini predefiniti */
     font-size: 14px;
     font-family: 'Arial', sans-serif;
-    /*color: #bdc3c7 !important; /* Colore più chiaro per il testo */
     color: #333;
-}
-
-/* Eventuale hover per i link nel footer */
-footer.bg-light a {
-    color: #3498db !important; /* Colore blu chiaro per i link */
-    text-decoration: none;
-}
-
-footer.bg-light a:hover {
-    text-decoration: underline;
 }
 
 /* Stile per il contenitore delle tabelle */
@@ -113,7 +99,7 @@ footer.bg-light a:hover {
     padding: 10px;
 }
 
-/* Div che contengono le slider */
+/* Div che contengono gli slider */
 slider-div {
     display: 'flex';
     flex-direction: 'column';
@@ -121,7 +107,7 @@ slider-div {
     margin-right: '5px';
 }
 
-/* Etichetta orizzontale sopra la slider */
+/* Etichetta orizzontale sopra lo slider */
 .slider-label {
     text-align: center;
     width: '100%';
