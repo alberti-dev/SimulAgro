@@ -212,8 +212,8 @@ def create_layout(app):
 
 			dbc.Card([
 				dbc.CardBody([
-					# Sezione per il grafico e la tabella per l'anno prossimo
-					html.H4("Previsioni per l'anno prossimo in funzione delle condizioni ambientali", className="my-4"),
+					# Sezione per il grafico e la tabella previsionale
+					html.H4("Previsioni in funzione delle condizioni ambientali", className="my-4"),
 					dbc.Row([
 						# Colonna del grafico
 						dbc.Col(
@@ -282,7 +282,7 @@ def create_layout(app):
 
 					dbc.Row([
                         dbc.Col(
-							# Tabella con i dati dell'anno prossimo
+							# Tabella dati previsionali singolo anno
 							html.Div(
 								className="custom-table-container",  # Classe CSS specifica per il contenitore delle tabelle
 								children=[

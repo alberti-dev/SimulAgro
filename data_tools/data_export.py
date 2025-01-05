@@ -247,7 +247,7 @@ def create_pdf_report(graphs, tables):
                              + tables[3].values.tolist())
 
     # **Sezione 5: Dati di Previsione anno prossimo**
-    y_position = add_section(pdf, width, height, y_position, "Dati di Previsione anno prossimo", graphs[5], [list(tables[4].columns)] \
+    y_position = add_section(pdf, width, height, y_position, "Dati di Previsione in funzione delle condizioni ambientali", graphs[5], [list(tables[4].columns)] \
                              + tables[4].values.tolist(), last_section=True)
 
     # Salva il PDF

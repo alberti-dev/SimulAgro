@@ -118,7 +118,7 @@ def register_callbacks(app):
         # Filtriamo i dati in base all'intervallo di anni selezionato nel RangeSlider
         filtered_df_future = df_future[(df_future['Year'] >= year_range[0]) & (df_future['Year'] <= year_range[1])]
         
-        # Conserva df_future in una variabile globale che serve per alimentare correttamente grafico e tabella "Anno Prossimo"
+        # Conserva df_future in una variabile globale che serve per alimentare correttamente grafico e tabella previsionali singolo anno
         global_df_future_data = df_future[(df_future['Year'] == df_future['Year'].min())].round(3).to_dict('records')
         
         # Creiamo il grafico con i dati filtrati
@@ -127,7 +127,7 @@ def register_callbacks(app):
         # Restituiamo i dati futuri, il grafico e la tabella
         return stored_data, global_df_future_data, fig_future, filtered_df_future.round(3).to_dict('records')
     
-    # Callback che aggiorna grafico e tabella delle previsioni per l'anno prossimo (richiamato dalla pressione del pulsante, dall'agire sulle slider
+    # Callback che aggiorna grafico e tabella delle previsioni (richiamato dalla pressione del pulsante, dall'agire sulle slider
     # o al caricamento della pagina)    
     @app.callback(
     [Output('fig_nextyear', 'figure'),
