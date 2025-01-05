@@ -187,7 +187,8 @@ def register_callbacks(app):
     # ai grafici e alle tabelle visualizzate in quel momento sulla dashboard e li passa alla
     # funzione create_pdf_report del modulo data_export.py del package data_tools per la generazione del PDF
     @app.callback(
-        Output('download-report', 'data'),
+        [Output('download-report', 'data'),
+        Output('btn-generate-report', 'disabled')], # Per disabilitare il pulsante durante la generazione del PDF
         Input('btn-generate-report', 'n_clicks'),
         State('env-table', 'data'),
         State('production-table', 'data'),
@@ -204,8 +205,8 @@ def register_callbacks(app):
     def generate_report(n_clicks, env_table_data, prod_table_data, perf_table_data, future_table_data,
                         global_df_future_data, fig_env, fig_prod, fig_perf1, fig_perf2, fig_future, fig_nextyear):
         if not n_clicks:
-            return None
-
+            return None, False # Nessun file, pulsante abilitato
+        
         # Converti i dati delle tabelle in DataFrame
         df_env = pd.DataFrame(env_table_data)
         df_prod = pd.DataFrame(prod_table_data)
@@ -214,11 +215,10 @@ def register_callbacks(app):
         df_filtered = pd.DataFrame(global_df_future_data)
 
         # Genera il PDF dinamicamente
-        # I dati nelle tabelle vengono passate ad una funzione che li restituisce formattati correttamente 
-        # per la visualizzazione nel PDF
+        # I dati nelle tabelle vengono passate ad una funzione che li restituisce formattati correttamente per la visualizzazione nel PDF
         pdf_buffer = create_pdf_report(
             [fig_env, fig_prod, fig_perf1, fig_perf2, fig_future, fig_nextyear],
             [format_table_data(df_env), format_table_data(df_prod), format_table_data(df_perf), format_table_data(df_future), format_table_data(df_filtered)]
         )
 
-        return dcc.send_bytes(pdf_buffer.getvalue(), "report_dashboard.pdf")
+        return dcc.send_bytes(pdf_buffer.getvalue(), "report_dashboard.pdf"), False

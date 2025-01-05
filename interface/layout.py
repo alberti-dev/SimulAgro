@@ -66,8 +66,10 @@ def create_layout(app):
                         dbc.NavItem(dbc.Button('Download Dati', id='btn-download', n_clicks=0, color="primary", size="sm", \
                                                className="me-2", style={'width': '180px'})),
                         dbc.Tooltip("Scarica i dati generati in formato Excel", target="btn-download", placement="bottom"),
-                        dbc.NavItem(dbc.Button('Genera Report', id='btn-generate-report', n_clicks=0, color="primary", size="sm", \
-                                               className="me-2", style={'width': '180px'})),
+						# Incapsula il pulsante "Genera Report" in dcc.Loading per visualizzare uno spinner durante la generazione del PDF                    
+						dbc.NavItem(dcc.Loading(id="spinner-container",	type="circle", color="#0d6efd",  # Tipo e colore dello spinner
+								children=dbc.Button('Genera Report', id='btn-generate-report', n_clicks=0, color="primary", size="sm",
+													className="me-2", style={'width': '180px'}))),
                         dbc.Tooltip("Crea un report in PDF basato sui dati visualizzati", target="btn-generate-report", placement="bottom"),
                         dcc.Download(id="download-data"),
                         dcc.Download(id="download-report"),
@@ -79,8 +81,7 @@ def create_layout(app):
                 color="light",  # Colore chiaro per abbinarsi all'header
                 dark=False,
                 className="shadow-sm my-2"  # Leggera ombra e margine verticale
-            ),			
-            
+            ),
 			dbc.CardGroup([
 				# Grafico e tabella relativi ai dati ambientali
 				dbc.Card([
