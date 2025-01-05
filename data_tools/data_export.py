@@ -240,13 +240,13 @@ def create_pdf_report(graphs, tables):
         table.drawOn(pdf, 50, y_position - 150)
         y_position -= 200
 
-    # **Sezione 4: Grafico Previsionale (su nuova pagina)**
+    # **Sezione 4: Dati Previsionali quinquennio (su nuova pagina)**
     pdf.showPage()  # Crea nuova pagina
     y_position = height - 100  # Imposta y_position per la nuova pagina
-    y_position = add_section(pdf, width, height, y_position, "Dati di Previsionali", graphs[4], [list(tables[3].columns)] \
+    y_position = add_section(pdf, width, height, y_position, "Dati Previsionali", graphs[4], [list(tables[3].columns)] \
                              + tables[3].values.tolist())
 
-    # **Sezione 5: Dati di Previsione anno prossimo**
+    # **Sezione 5: Dati Previsione in  funzione dei dati ambientali**
     y_position = add_section(pdf, width, height, y_position, "Dati di Previsione in funzione delle condizioni ambientali", graphs[5], [list(tables[4].columns)] \
                              + tables[4].values.tolist(), last_section=True)
 
